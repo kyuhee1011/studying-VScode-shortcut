@@ -16,4 +16,4 @@ class Player(Base):
         return f"Player {self.id}: " \
             + f"{self.name}, " \
             + f"{self.email}"\
-            +f"{self.point}"
+            + f"{self.point}"
