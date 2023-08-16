@@ -17,3 +17,11 @@ class Player(Base):
             + f"{self.name}, " \
             + f"{self.email}"\
             + f"{self.point}"
+    
+class Question (Base):
+    __tablename__= 'questions'
+    id = Column(Integer(), primary_key=True)
+    question= Column(String())
+    def __repr__(self):
+        return f"Question {self.id}: " \
+            + f"{self.question} " 
