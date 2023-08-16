@@ -29,7 +29,7 @@ class Question (Base):
 class Quiz (Base):
     __tablename__='quizzes'
     id = Column(Integer(), primary_key=True)
-    question_id = Column(Integer(), ForeignKey ("question.id"))
+    question_id = Column(Integer(), ForeignKey ("questions.id"))
     def __repr__(self):
         return f"Quiz {self.id}: " \
             + f"{self.question_id}"
