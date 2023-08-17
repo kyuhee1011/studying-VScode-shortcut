@@ -1,8 +1,8 @@
 """Adds quiz table
 
-Revision ID: 6905d61dbdc7
-Revises: c3afbc57fc70
-Create Date: 2023-08-16 20:41:05.881850
+Revision ID: babf1511228d
+Revises: a91cf48b1b99
+Create Date: 2023-08-16 22:32:16.956863
 
 """
 from typing import Sequence, Union
@@ -12,8 +12,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '6905d61dbdc7'
-down_revision: Union[str, None] = 'c3afbc57fc70'
+revision: str = 'babf1511228d'
+down_revision: Union[str, None] = 'a91cf48b1b99'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -23,6 +23,9 @@ def upgrade() -> None:
     op.create_table('quizzes',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('question_id', sa.Integer(), nullable=True),
+    sa.Column('player_id', sa.Integer(), nullable=True),
+    sa.Column('correct_answer', sa.Boolean(), nullable=False),
+    sa.ForeignKeyConstraint(['player_id'], ['players.id'], ),
     sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
