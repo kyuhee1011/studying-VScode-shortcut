@@ -4,6 +4,13 @@ from sqlalchemy.orm import sessionmaker, relationship
 
 Base = declarative_base()
 
+player_quiz=Table (
+    "player_quiz",
+    Base.metadata,
+    Column ("id", Integer, primary_key=True),
+    Column ("player_id", ForeignKey("players.id")),
+    Column ("quiz_id", ForeignKey("quizzes.id"))
+)
 
 class Player(Base):
     __tablename__='players'
@@ -22,10 +29,12 @@ class Question (Base):
     __tablename__= 'questions'
     id = Column(Integer(), primary_key=True)
     question= Column(String())
+    answer=Column (String())
     def __repr__(self):
         return f"Question {self.id}: " \
-            + f"{self.question} " 
-
+            + f"{self.question} " \
+            + f"{self.answer}"
+        
 class Quiz (Base):
     __tablename__='quizzes'
     id = Column(Integer(), primary_key=True)
@@ -33,4 +42,3 @@ class Quiz (Base):
     def __repr__(self):
         return f"Quiz {self.id}: " \
             + f"{self.question_id}"
-          

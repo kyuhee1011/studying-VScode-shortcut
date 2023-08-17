@@ -1,8 +1,8 @@
-"""Add question table
+"""Adds questions table
 
-Revision ID: e416754f4765
+Revision ID: c3afbc57fc70
 Revises: 92d71304dbf4
-Create Date: 2023-08-16 16:52:04.060405
+Create Date: 2023-08-16 20:40:20.946393
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'e416754f4765'
+revision: str = 'c3afbc57fc70'
 down_revision: Union[str, None] = '92d71304dbf4'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -23,6 +23,7 @@ def upgrade() -> None:
     op.create_table('questions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('question', sa.String(), nullable=True),
+    sa.Column('answer', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
