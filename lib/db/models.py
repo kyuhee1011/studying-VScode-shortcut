@@ -2,6 +2,10 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
+engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
+Session = sessionmaker(bind=engine)
+session = Session()
+
 Base = declarative_base()
 
 player_quiz=Table (
@@ -28,6 +32,15 @@ class Player(Base):
     questions = relationship ("Question", secondary="player_quiz", backref="players")
     quizzes = relationship ("Quiz", backref="players")
     
+    def add_player (name,email):
+        player=Player (
+            full_name = name,
+            email=email
+        )
+        session.add(player)
+        session.commit ()
+
+    
 
 class Question (Base):
     __tablename__= 'questions'
@@ -42,6 +55,14 @@ class Question (Base):
     players = relationship ("Player", secondary="player_quiz", backref="Question")
     quizzes = relationship ("Quiz", backref="Question")
 
+    def add_question (question,answer):
+        question=Question (
+            question = question,
+            answer=answer
+        )
+        session.add(question)
+        session.commit ()
+
 class Quiz (Base):
     __tablename__='quizzes'
     id = Column(Integer(), primary_key=True)
@@ -53,5 +74,6 @@ class Quiz (Base):
             + f"Question id {self.question_id}"\
             + f"Player id{self.player_id}"\
             + f"Answered Correctly{self.correct_answer}"
-
+    
+ 
     
