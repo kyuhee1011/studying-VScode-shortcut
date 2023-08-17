@@ -1,6 +1,11 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table, Boolean, MetaData
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker, relationship, backref
+
+convention = {
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+}
+metadata = MetaData(naming_convention=convention)
 
 engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
 Session = sessionmaker(bind=engine)
@@ -31,16 +36,22 @@ class Player(Base):
     
     questions = relationship ("Question", secondary="player_quiz", backref="players")
     quizzes = relationship ("Quiz", backref="players")
-    
-    def add_player (name,email):
-        player=Player (
+
+    #Add new player  
+    def add_player (name,email, point):
+        add_player=Player (
             full_name = name,
-            email=email
+            email=email,
+            point =f'{point}'
         )
-        session.add(player)
+        session.add(add_player)
         session.commit ()
 
-    
+    #Delete player and count how many player left
+    def remove_player (name):
+        remove_player=session.query (Player).filter(Player.name).count ()
+        session.delete(remove_player)
+        session.commit()
 
 class Question (Base):
     __tablename__= 'questions'
