@@ -13,78 +13,54 @@ session = Session()
 
 Base = declarative_base()
 
-player_quiz=Table (
-    "player_quiz",
+quiz_question =Table(
+    "quiz_question",
+    Base.metadata,
+    Column ("id", Integer, primary_key=True),
+    Column ("quiz_id", ForeignKey("quizzes.id")),
+    Column ("question_id", ForeignKey("questions.id"))
+)
+
+track_answer =Table(
+    "player_question_track",
     Base.metadata,
     Column ("id", Integer, primary_key=True),
     Column ("player_id", ForeignKey("players.id")),
-    Column ("quiz_id", ForeignKey("quizzes.id"))
+    Column ("question_id", ForeignKey("questions.id"))
 )
 
 class Player(Base):
     __tablename__='players'
  
     id = Column(Integer(), primary_key=True)
-    name = Column(String())
-    email=Column(String, unique=True)
-    point= Column(String())
+    first_name = Column(String())
+    last_name=Column(String())
+    username= Column(String())
     def __repr__(self):
         return f"Player id: {self.id}: " \
-            + f"Player name:{self.name}, " \
-            + f"{self.email}"\
-            + f"Score:{self.point}"
-    
-    questions = relationship ("Question", secondary="player_quiz", backref="players")
-    quizzes = relationship ("Quiz", backref="players")
-
-    #Add new player  
-    def add_player (name,email, point):
-        add_player=Player (
-            full_name = name,
-            email=email,
-            point =f'{point}'
-        )
-        session.add(add_player)
-        session.commit ()
-
-    #Delete player and count how many player left
-    def remove_player (name):
-        remove_player=session.query (Player).filter(Player.name).count ()
-        session.delete(remove_player)
-        session.commit()
+            + f"Player first name:{self.first_name}, " \
+            + f"Player last name:{self.last_name}"\
+            + f"username:{self.username}"
 
 class Question (Base):
     __tablename__= 'questions'
     id = Column(Integer(), primary_key=True)
     question= Column(String())
     answer=Column (String())
+    point=(Integer())
     def __repr__(self):
-        return f"Question id:{self.id}: " \
-            + f"Question:{self.question} " \
-            + f"Answer:{self.answer}"
+        return f"Question id:{self.id}: "\
+            + f"Question:{self.question} "\
+            + f"Answer:{self.answer}"\
+            + f"Point:{self.point}"
     
-    players = relationship ("Player", secondary="player_quiz", backref="Question")
-    quizzes = relationship ("Quiz", backref="Question")
-
-    def add_question (question,answer):
-        question=Question (
-            question = question,
-            answer=answer
-        )
-        session.add(question)
-        session.commit ()
-
 class Quiz (Base):
     __tablename__='quizzes'
     id = Column(Integer(), primary_key=True)
-    question_id = Column(Integer(), ForeignKey ("questions.id"))
     player_id =Column(Integer(), ForeignKey ("players.id"))
-    correct_answer= Column (Boolean, nullable=(False))
+
     def __repr__(self):
         return f"Quiz {self.id}: " \
-            + f"Question id {self.question_id}"\
-            + f"Player id{self.player_id}"\
-            + f"Answered Correctly{self.correct_answer}"
-    
- 
+            + f"Player id{self.player_id}"
+         
     
