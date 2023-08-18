@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table, Boolean, MetaData
 from sqlalchemy.ext.declarative import declarative_base
-from helpers.prompt import Prompt
+
 from sqlalchemy.orm import sessionmaker, relationship, backref
 
 convention = {
@@ -39,13 +39,19 @@ class Player(Base):
     first_name = Column(String())
     last_name=Column(String())
     username= Column(String())
+
+    def __init__ (self,first_name, last_name,username):
+        self.first_name=first_name
+        self.last_name=last_name
+        self.username=username
+
     def __repr__(self):
         return f"Player id: {self.id}: " \
             + f"Player first name:{self.first_name}, " \
             + f"Player last name:{self.last_name}"\
             + f"username:{self.username}"
     
-    questions=relationship("Question", secondary=track_answer, backref="players")
+    questions=relationship("Question", secondary=track_answer, back_populates="players")
 
 
     #Delete player and count how many player left
@@ -79,12 +85,12 @@ class Question (Base):
             + f"Answer:{self.answer}"\
             + f"Point:{self.point}"
     
-    players=relationship("Player", secondary=track_answer, backref="questions")
-    quizzes=relationship("Quiz", secondary=quiz_question , backref="questions")
+    players=relationship("Player", secondary=track_answer, back_populates="questions")
+    quizzes=relationship("Quiz", secondary=quiz_question , back_populates="questions")
     
-    @classmethod
-    def get_questions (cls, question):
-       cls.all.append(question)
+@classmethod
+def get_questions (cls, question):
+    cls.all.append(question)
 
 
 class Quiz (Base):
@@ -96,5 +102,5 @@ class Quiz (Base):
         return f"Quiz {self.id}: " \
             + f"Player id{self.player_id}"
     
-    questions=relationship("Question", secondary=quiz_question , backref="quizzes")
-    
+    questions=relationship("Question", secondary=quiz_question , back_populates="quizzes")
+

@@ -9,8 +9,9 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 class Cli:
-    def __init__ (self):
-        current_player=None
+    def __init__ (self, current_player=None):
+        current_player=current_player
+       
 
     def start_quiz (self):
         start_menu_options= ["Enter username", "AddMe", "Exit"]
@@ -37,10 +38,13 @@ class Cli:
             else:
                 self.handle_exit
 
-    def enter_addMe (self,first_name, last_name, username):
-        add_player= Player (session, first_name=first_name, last_name=last_name, username=username)
-        print(f'Welcome {add_player} start the quiz')
-        session=Session()
+    def enter_addMe (self):
+        first_name = input ("What is your first name?")
+        last_name =input ("What is your last name?")
+        username=input("Enter your username")
+        add_player= Player (first_name=first_name, last_name=last_name, username=username)
+        print(f'Welcome {add_player.username} start the quiz')
+     
         session.add (add_player)
         session.commit()
 
@@ -50,7 +54,7 @@ class Cli:
     def show_start_options(self):
         quiz_menu_options =["Start the Quiz", "View all questions", "My Score", "Exit"]
         quiz_start_menu = TerminalMenu (quiz_menu_options)
-        quiz_index=quiz_start_menu.append()
+        quiz_index=quiz_start_menu.show()
         if quiz_start_menu [quiz_index]=="Start the Quiz":
             self.handle_start
         elif quiz_start_menu [quiz_index]== "My Score":
@@ -63,7 +67,15 @@ class Cli:
         print ("\n"*20)
     
     def handle_start (self):
-        pass
+     pass
+
+    def track_answer(self, current_player, answer):
+        self.player_input= current_player
+        if self.player_input == answer: 
+            self.point +=1
+            self.handle_start()
+        else:
+            self.handle_exit()
 
 
     def show_score (self, current_player):
@@ -84,6 +96,6 @@ class Cli:
     def handle_exit (self):
         print ("Good Bye")          
 
-if __name__=='main':
+if __name__=='__main__':
     app=Cli()
-    app.start()
+    app.start_quiz()
