@@ -1,8 +1,8 @@
 """add player_question_track table
 
-Revision ID: 4a58c072c25e
+Revision ID: 0b20ed19b236
 Revises: 9d8872b48edf
-Create Date: 2023-08-17 18:10:37.994309
+Create Date: 2023-08-17 22:35:01.738443
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '4a58c072c25e'
+revision: str = '0b20ed19b236'
 down_revision: Union[str, None] = '9d8872b48edf'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,6 +24,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('player_id', sa.Integer(), nullable=True),
     sa.Column('question_id', sa.Integer(), nullable=True),
+    sa.Column('points', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['player_id'], ['players.id'], ),
     sa.ForeignKeyConstraint(['question_id'], ['questions.id'], ),
     sa.PrimaryKeyConstraint('id')
