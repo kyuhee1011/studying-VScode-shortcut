@@ -65,17 +65,21 @@ class Cli:
     def handle_start (self):
         pass
 
-    def show_score (self):
-        pass
 
-
+    def show_score (self, current_player):
+        current_player=[]
+        total_score=sum(point["point"] for point in Question)
+        current_player.append = {
+                "username":current_player.username,
+                "Score":current_player.point
+            }
+        
+        return total_score
 
     def show_all_questions (self):
         questions=Question.get_questions
         self.clear_lines()
-        self.show_start_options
-        
-
+        self.show_start_options      
 
     def handle_exit (self):
         print ("Good Bye")          
