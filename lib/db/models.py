@@ -79,6 +79,17 @@ class Question (Base):
     question= Column(String())
     answer=Column (String())
     point=(Integer())
+
+    def __init__ (self,question, answer,point):
+        self.question=question
+        self.answer=answer
+        self.point=point
+
+    def correct_answer (self, answer):
+        self.answer=answer
+        return self.answer 
+
+
     def __repr__(self):
         return f"Question id:{self.id}: "\
             + f"Question:{self.question} "\
@@ -93,14 +104,22 @@ def get_questions (cls, question):
     cls.all.append(question)
 
 
+
+
 class Quiz (Base):
     __tablename__='quizzes'
     id = Column(Integer(), primary_key=True)
     player_id =Column(Integer(), ForeignKey ("players.id"))
 
+    def __init__ (self,player_id):
+        self.player_id=player_id
+    
+              
     def __repr__(self):
         return f"Quiz {self.id}: " \
             + f"Player id{self.player_id}"
     
     questions=relationship("Question", secondary=quiz_question , back_populates="quizzes")
 
+# @classmethod
+# def get_quiz_questions(cls):

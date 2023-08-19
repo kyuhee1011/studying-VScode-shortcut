@@ -17,7 +17,8 @@ session.query(Quiz).delete()
 
 users=[]
 quizzes =[]
-questions=[
+
+questions_quiz=[
     Question (question="How do you open the terminal? ", 
               answer="ctrl + `", point="1"),
     Question (question="How cut and copy/paste the line?", 
@@ -42,9 +43,11 @@ questions=[
 ]
 
 
+quizzes =questions_quiz
 
 session.bulk_save_objects (questions)
 session.commit ()
 
 
+if__name__=='__main__':
 
