@@ -13,7 +13,6 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 Base = declarative_base()
-
 quiz_question =Table(
     "quiz_question",
     Base.metadata,
@@ -21,7 +20,6 @@ quiz_question =Table(
     Column ("quiz_id", ForeignKey("quizzes.id")),
     Column ("question_id", ForeignKey("questions.id"))
 )
-
 track_answer =Table(
     "player_question_track",
     Base.metadata,
@@ -50,35 +48,26 @@ class Player(Base):
             + f"Player first name:{self.first_name}, " \
             + f"Player last name:{self.last_name}"\
             + f"username:{self.username}"
-    
+
     questions=relationship("Question", secondary=track_answer, back_populates="players")
 
 
-    #Delete player and count how many player left
-    def remove_player (name):
-        remove_player=session.query (Player).filter(Player.name).count ()
-
-        if remove_player:
-            session.delete(remove_player)
-            session.commit()
-            print (f"Player with name {name} has been removed.")
-        else:
-            print (f"Player with name {name} doesn't exist.")
-
 #Add new player  
 
-@classmethod
-def new_player(cls):
-    add_player= cls(first_name, last_name, username)
-    add_player.save()
-    return add_player
+    @classmethod
+    def new_player(cls, first_name, last_name, username):
+        add_player = cls(first_name=first_name, last_name=last_name, username=username)
+    
+        session.add(add_player)
+        session.commit()
+        return add_player
 
 class Question (Base):
     __tablename__= 'questions'
     id = Column(Integer(), primary_key=True)
     question= Column(String())
     answer=Column (String())
-    point=(Integer())
+    point=Column(Integer())
 
     def __init__ (self,question, answer,point):
         self.question=question
@@ -86,8 +75,7 @@ class Question (Base):
         self.point=point
 
     def correct_answer (self, answer):
-        self.answer=answer
-        return self.answer 
+        return self.answer ==answer
 
 
     def __repr__(self):
@@ -98,13 +86,13 @@ class Question (Base):
     
     players=relationship("Player", secondary=track_answer, back_populates="questions")
     quizzes=relationship("Quiz", secondary=quiz_question , back_populates="questions")
+      
+
     
-@classmethod
-def get_questions (cls, question):
-    cls.all.append(question)
-
-
-
+    @classmethod
+    def get_questions (cls, question):
+        cls.all.append(question)
+    
 
 class Quiz (Base):
     __tablename__='quizzes'
@@ -118,8 +106,9 @@ class Quiz (Base):
     def __repr__(self):
         return f"Quiz {self.id}: " \
             + f"Player id{self.player_id}"
-    
+
     questions=relationship("Question", secondary=quiz_question , back_populates="quizzes")
 
-# @classmethod
-# def get_quiz_questions(cls):
+
+
+
