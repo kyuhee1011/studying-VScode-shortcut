@@ -4,6 +4,7 @@ from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
 from sqlalchemy.orm import sessionmaker
 from helpers import add_scores, cli
+from seed import questions_quiz
 engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -74,21 +75,27 @@ class Cli:
            
 
     def track_answer(self, question):
-        self.player_input= input("Enter your answer")
-        if question.correct_answer (self.player_input):
+        wrong_answer = track_answer(player_id= current_player.id, question_id = current_question.id)
+        player_input= input("Enter your answer")
+        if player_input==current_question.answer:
+            print ("You got correct Answer!") 
             self.add_scores()
-            self.show_score()
+    
         else:
+            print ("That is incorrect, try again")
+            player.question.append(current_question)
+            session.add(player)
+            session.commit()
             #wrong answer track
             self.handle_exit()
 
-    def add_score (self):
-        count =self.track_answer.points
-        player_input==correct_answer.answer
-        print ("You got correct Answer!") 
-        count+=1   
+    # def add_score (self):
+    #     count =self.track_answer.points
+    #     player_input==correct_answer.answer
+    #     print ("You got correct Answer!") 
+    #     count+=1   
        
-        print ("That is incorrect, try again")
+    #     print ("That is incorrect, try again")
 
 
 
@@ -98,13 +105,13 @@ class Cli:
         print(f"Total Score for 'username': {self.current_player.username}, 'score': {total_score}")
      
 
-    def show_all_questions (self):
-       
-        self.show_start_options ()
-        questions=Question.get_questions
-
-        self.clear_lines()
+    def show_all_questions(self):
+        questions = session.query(Question).all()
+        for question in questions:
+            print(f"Question: {question.question}")
         self.show_start_options()
+
+    
 
     def handle_exit (self):
         print ("Good Bye")          

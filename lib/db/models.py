@@ -90,8 +90,8 @@ class Question (Base):
 
     
     @classmethod
-    def get_questions (cls, question):
-        cls.all.append(question)
+    def get_questions (cls):
+        return cls.question
     
 
 class Quiz (Base):
