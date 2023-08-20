@@ -1,4 +1,4 @@
-
+import time
 from sqlalchemy import create_engine
 from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
@@ -43,16 +43,14 @@ class Cli:
         first_name = input("What is your first name?")
         last_name = input("What is your last name?")
         username = input("Enter your username")
+
         new_player= Player.new_player(first_name, last_name, username)
-        print(f'Welcome {new_player.username} start the quiz')    
-
         self.current_player=new_player
-
         self.show_start_options ()       
        
 
     def show_start_options(self):
-        quiz_menu_options =["Start the Quiz", "View all questions", "My Score", "Exit"]
+        quiz_menu_options =["Start the Quiz", "View all questions", "My Score", "Remove Me", "Exit"]
         quiz_start_menu = TerminalMenu(quiz_menu_options) 
        
         quiz_index=quiz_start_menu.show()
@@ -62,16 +60,25 @@ class Cli:
             self.show_all_questions()
         elif quiz_menu_options[quiz_index]== "My Score":
             self.show_score()
+        elif quiz_menu_options[quiz_index]== "Remove Me":
+            self.handle_remove_user()
         else: self.handle_exit()
     
+    def handle_remove_user(self):
+        username = input("Enter your username")
+        
+        remove_player= Player.remove_player(username)
+        self.current_player=remove_player
+        self.start_quiz ()       
+    
     def clear_lines(self):
-        print ("\n"*20)
+        print ("\n"*10)
     
     def handle_start (self):
         print ("Quiz started")
-        question=session.query(Question).first()
+        question=session.query(Question).all()
         print(f"Question: {question.question}")
-        self.track_answer(question)
+        self.ask_questions()
            
 
     def track_answer(self, question):
@@ -109,6 +116,8 @@ class Cli:
         questions = session.query(Question).all()
         for question in questions:
             print(f"Question: {question.question}")
+        time.sleep(7)
+        self.clear_lines()
         self.show_start_options()
 
     

@@ -52,15 +52,24 @@ class Player(Base):
     questions=relationship("Question", secondary=track_answer, back_populates="players")
 
 
-#Add new player  
+    @classmethod
+    def remove_player(cls, username):
+        remove_player = session.query(Player).filter_by(username=username).first()
+
+        if remove_player:
+            session.delete(remove_player)
+            session.commit()
+            print(f"Player with username {username} has been removed.")
+        else:
+            print(f"Player with username {username} doesn't exist.")
 
     @classmethod
     def new_player(cls, first_name, last_name, username):
-        add_player = cls(first_name=first_name, last_name=last_name, username=username)
-    
-        session.add(add_player)
+        new_player = cls(first_name=first_name, last_name=last_name, username=username)
+        session.add(new_player)
         session.commit()
-        return add_player
+        print(f"Welcome {new_player.username}, start the quiz")
+        return new_player
 
 class Question (Base):
     __tablename__= 'questions'
@@ -86,13 +95,7 @@ class Question (Base):
     
     players=relationship("Player", secondary=track_answer, back_populates="questions")
     quizzes=relationship("Quiz", secondary=quiz_question , back_populates="questions")
-      
-
-    
-    @classmethod
-    def get_questions (cls):
-        return cls.question
-    
+          
 
 class Quiz (Base):
     __tablename__='quizzes'
