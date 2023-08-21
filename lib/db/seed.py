@@ -15,10 +15,10 @@ session.query(Quiz).delete()
 
 
 
-users=[]
+player=[]
 quizzes =[]
 
-questions_quiz=[
+questions=[
     Question (question="How do you open the terminal? ", 
               answer="ctrl + `", point="1"),
     Question (question="How cut and copy/paste the line?", 
@@ -42,9 +42,9 @@ questions_quiz=[
 
 ]
 
-quizzes =questions_quiz
+quizzes =questions
 
-session.bulk_save_objects (questions_quiz)
+session.bulk_save_objects (questions, player)
 session.commit ()
 
 

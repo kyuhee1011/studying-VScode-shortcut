@@ -3,16 +3,18 @@ from sqlalchemy import create_engine
 from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
 from sqlalchemy.orm import sessionmaker
-from helpers import add_scores, cli
-from seed import questions_quiz
-engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
-Session = sessionmaker(bind=engine)
-session = Session()
+# from helpers import add_scores, cli
+from seed import questions, player
+from session import session
+
+# engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
 class Cli:
     def __init__ (self, current_player=None):
         self.current_player=current_player
-       
+        self.questions=questions     
 
     def start_quiz (self):
         start_menu_options= ["Enter username", "AddMe", "Exit"]
@@ -27,7 +29,7 @@ class Cli:
     def enter_username(self):
         username=input ("Enter your username")
         existing_player=session.query(Player).filter_by(username=username).first()
-        
+        print (existing_player)
         if existing_player:
             self.current_player=existing_player
             self.show_start_options
@@ -66,7 +68,6 @@ class Cli:
     
     def handle_remove_user(self):
         username = input("Enter your username")
-        
         remove_player= Player.remove_player(username)
         self.current_player=remove_player
         self.start_quiz ()       
@@ -76,9 +77,21 @@ class Cli:
     
     def handle_start (self):
         print ("Quiz started")
-        question=session.query(Question).all()
+        question=session.query(Question).first()
         print(f"Question: {question.question}")
         self.ask_questions()
+        
+    def ask_questions(self, index=0):
+       
+        question = self.questions[index]
+        print(f"Question: {question.question}")
+        player_input = input("Enter your answer: ")
+
+        if question.correct_answer(player_input):
+            self.current_player.point += question.point
+            question += 1
+        else:
+            self.handle_exit()
            
 
     def track_answer(self, question):
@@ -89,7 +102,7 @@ class Cli:
             self.add_scores()
     
         else:
-            print ("That is incorrect, try again")
+            print ("That is incorrect!")
             player.question.append(current_question)
             session.add(player)
             session.commit()
@@ -126,5 +139,6 @@ class Cli:
         print ("Good Bye")          
 
 if __name__ == '__main__':
+    # pass
     app=Cli()
     app.start_quiz()

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table, Boolean, MetaData
 from sqlalchemy.ext.declarative import declarative_base
-
+from session import session
 from sqlalchemy.orm import sessionmaker, relationship, backref
 
 convention = {
@@ -8,9 +8,9 @@ convention = {
 }
 metadata = MetaData(naming_convention=convention)
 
-engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
-Session = sessionmaker(bind=engine)
-session = Session()
+# engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
 Base = declarative_base()
 quiz_question =Table(
@@ -53,7 +53,7 @@ class Player(Base):
 
 
     @classmethod
-    def remove_player(cls, username):
+    def remove_player(cls, session, username):
         remove_player = session.query(Player).filter_by(username=username).first()
 
         if remove_player:
@@ -68,8 +68,11 @@ class Player(Base):
         new_player = cls(first_name=first_name, last_name=last_name, username=username)
         session.add(new_player)
         session.commit()
+        print(new_player)
         print(f"Welcome {new_player.username}, start the quiz")
         return new_player
+    
+
 
 class Question (Base):
     __tablename__= 'questions'

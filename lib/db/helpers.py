@@ -5,9 +5,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 
-engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
-Session = sessionmaker(bind=engine)
-session = Session()
+# engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
+# Session = sessionmaker(bind=engine)
+# session = Session()
 
 @click.group()
 def cli():
@@ -28,7 +28,6 @@ def add_scores (self):
 
 if __name__ == '__main__':
     cli()
-    add_scores()
 
 
 
