@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
 from sqlalchemy.orm import sessionmaker
-
+import random
 # from helpers import add_scores, cli
 
 from session import session
@@ -15,7 +15,9 @@ from session import session
 class Cli:
     def __init__ (self, current_player=None):
         self.current_player=current_player
-        self.questions= session.query(Question).all()     
+        self.questions= session.query(Question).all()
+        self.track_index = 0
+        # self.old_questions=[]
 
     def start_quiz (self):
         start_menu_options= ["Enter username", "AddMe", "Exit"]
@@ -79,48 +81,43 @@ class Cli:
     
     def handle_start (self):
         print ("Quiz started")
-        question=session.query(Question).first()
+        question=self.questions[self.track_index]
         print(f"Question: {question.question}")
         self.track_answer()
         
     def track_answer(self, index=0):
        
         question = self.questions[index] 
+        wrong_answer = track_answer 
         player_input = input("Enter your answer: ")
 
         if question.correct_answer(player_input):
+            print ("You got correct Answer!") 
             self.current_player.point += question.point
             # question += 1
-            session.add(self.current_player)
-            session.commit()
+            self.next_question()  
         else:
-            self.handle_exit()
+            print("That is incorrect!")
+            self.next_question()
+
+            session.add(self.current_player)
+            session.commit()              
+  
         return index
-           
-
-    # def track_answer(self, question):
-    #     wrong_answer = track_answer(player_id= current_player.id, question_id = current_question.id)
-    #     player_input= input("Enter your answer")
-    #     if player_input==current_question.answer:
-    #         print ("You got correct Answer!") 
-    #         self.add_scores()
     
-    #     else:
-    #         print ("That is incorrect!")
-    #         player.question.append(current_question)
-    #         session.add(player)
-    #         session.commit()
-    #         #wrong answer track
-    #         self.handle_exit()
+    def next_question(self):
+        
+        player_input=input("Enter 'n' for next question or 'e' to exit")
+        
+        if player_input.lower()=='n':
+            self.track_index += 1
+            print (self.track_index)
+        
+            question=self.questions[self.track_index]
+            print (question)
+        else: player_input.lower()=='q'
 
-    # def add_score (self):
-    #     count =self.track_answer.points
-    #     player_input==correct_answer.answer
-    #     print ("You got correct Answer!") 
-    #     count+=1   
-       
-    #     print ("That is incorrect, try again")
-
+        return self.handle_exit()
 
     def show_score (self):
         
