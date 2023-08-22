@@ -16,6 +16,7 @@ class Cli:
     def __init__ (self, current_player=None):
         self.current_player=current_player
         self.questions= session.query(Question).all()
+        
         self.track_index = 0
         # self.old_questions=[]
 
@@ -85,9 +86,9 @@ class Cli:
         print(f"Question: {question.question}")
         self.track_answer()
         
-    def track_answer(self, index=0):
+    def track_answer(self):
        
-        question = self.questions[index] 
+        question = self.questions[self.track_index] 
         wrong_answer = track_answer 
         player_input = input("Enter your answer: ")
 
@@ -103,21 +104,24 @@ class Cli:
             session.add(self.current_player)
             session.commit()              
   
-        return index
+        return self.track_index
     
     def next_question(self):
-        
+        #invoke
+        #create variable        
         player_input=input("Enter 'n' for next question or 'e' to exit")
-        
+        #player input compare and increment
         if player_input.lower()=='n':
             self.track_index += 1
             print (self.track_index)
-        
+
             question=self.questions[self.track_index]
             print (question)
-        else: player_input.lower()=='q'
-
-        return self.handle_exit()
+            self.track_answer()
+            
+            #== comparing 
+        else: 
+            self.handle_exit()
 
     def show_score (self):
         
