@@ -1,8 +1,8 @@
-"""add player table
+"""create Player table
 
-Revision ID: 86fbf72c73ff
+Revision ID: f376a854a9d0
 Revises: 
-Create Date: 2023-08-17 17:49:23.556713
+Create Date: 2023-08-22 16:41:45.764267
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '86fbf72c73ff'
+revision: str = 'f376a854a9d0'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,6 +25,7 @@ def upgrade() -> None:
     sa.Column('first_name', sa.String(), nullable=True),
     sa.Column('last_name', sa.String(), nullable=True),
     sa.Column('username', sa.String(), nullable=True),
+    sa.Column('point', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

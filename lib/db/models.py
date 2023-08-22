@@ -26,10 +26,8 @@ track_answer =Table(
     Column ("id", Integer, primary_key=True),
     Column ("player_id", ForeignKey("players.id")),
     Column ("question_id", ForeignKey("questions.id")),
-    Column ("points", String())
+   
 )
-
-
 class Player(Base):
     __tablename__='players'
  
@@ -37,19 +35,22 @@ class Player(Base):
     first_name = Column(String())
     last_name=Column(String())
     username= Column(String())
+    point=Column (Integer())
 
-    def __init__ (self,first_name, last_name,username):
+    def __init__ (self,first_name, last_name, username, point=0):
         self.first_name=first_name
         self.last_name=last_name
         self.username=username
+        self.point =point
+        
 
     def __repr__(self):
         return f"Player id: {self.id}: " \
             + f"Player first name:{self.first_name}, " \
-            + f"Player last name:{self.last_name}"\
-            + f"username:{self.username}"
+            + f"Player last name:{self.last_name}, "\
+            + f"username:{self.username}, "\
+            + f"Player's point:{self.point}"
 
-    questions=relationship("Question", secondary=track_answer, back_populates="players")
 
 
     @classmethod
@@ -72,8 +73,6 @@ class Player(Base):
         print(f"Welcome {new_player.username}, start the quiz")
         return new_player
     
-
-
 class Question (Base):
     __tablename__= 'questions'
     id = Column(Integer(), primary_key=True)
@@ -95,10 +94,6 @@ class Question (Base):
             + f"Question:{self.question} "\
             + f"Answer:{self.answer}"\
             + f"Point:{self.point}"
-    
-    players=relationship("Player", secondary=track_answer, back_populates="questions")
-    quizzes=relationship("Quiz", secondary=quiz_question , back_populates="questions")
-          
 
 class Quiz (Base):
     __tablename__='quizzes'
@@ -112,9 +107,3 @@ class Quiz (Base):
     def __repr__(self):
         return f"Quiz {self.id}: " \
             + f"Player id{self.player_id}"
-
-    questions=relationship("Question", secondary=quiz_question , back_populates="quizzes")
-
-
-
-

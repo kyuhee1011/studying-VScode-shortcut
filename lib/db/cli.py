@@ -15,7 +15,7 @@ from session import session
 class Cli:
     def __init__ (self, current_player=None):
         self.current_player=current_player
-        self.questions=questions     
+        self.questions= session.query(Question).all()     
 
     def start_quiz (self):
         start_menu_options= ["Enter username", "AddMe", "Exit"]
@@ -33,7 +33,7 @@ class Cli:
         print (existing_player)
         if existing_player:
             self.current_player=existing_player
-            self.show_start_options
+            self.show_start_options()
         else:
             print ("Username was not found. Would like to sign up and start the game?")
             response = input("Enter 'yes' to continue:")
@@ -85,13 +85,14 @@ class Cli:
         
     def track_answer(self, index=0):
        
-        question = self.questions[index]
-        print(f"Question: {question.question}")
+        question = self.questions[index] 
         player_input = input("Enter your answer: ")
 
         if question.correct_answer(player_input):
             self.current_player.point += question.point
-            question += 1
+            # question += 1
+            session.add(self.current_player)
+            session.commit()
         else:
             self.handle_exit()
         return index
