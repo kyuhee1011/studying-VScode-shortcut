@@ -54,7 +54,7 @@ class Player(Base):
 
     @classmethod
     def remove_player(cls, session, username):
-        remove_player = session.query(Player).filter_by(username=username).first()
+        remove_player = session.query(cls).filter_by(username=username).first()
 
         if remove_player:
             session.delete(remove_player)

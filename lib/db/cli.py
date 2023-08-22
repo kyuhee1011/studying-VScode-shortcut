@@ -3,10 +3,11 @@ from sqlalchemy import create_engine
 from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
 from sqlalchemy.orm import sessionmaker
-# from helpers import add_scores, cli
-from seed import questions, player
-from session import session
 
+# from helpers import add_scores, cli
+
+from session import session
+#prettycli
 # engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
 # Session = sessionmaker(bind=engine)
 # session = Session()
@@ -68,8 +69,9 @@ class Cli:
     
     def handle_remove_user(self):
         username = input("Enter your username")
-        remove_player= Player.remove_player(username)
-        self.current_player=remove_player
+        Player.remove_player(session, username)
+        if self.current_player==username:
+            self.current_player
         self.start_quiz ()       
     
     def clear_lines(self):
@@ -79,9 +81,9 @@ class Cli:
         print ("Quiz started")
         question=session.query(Question).first()
         print(f"Question: {question.question}")
-        self.ask_questions()
+        self.track_answer()
         
-    def ask_questions(self, index=0):
+    def track_answer(self, index=0):
        
         question = self.questions[index]
         print(f"Question: {question.question}")
@@ -92,22 +94,23 @@ class Cli:
             question += 1
         else:
             self.handle_exit()
+        return index
            
 
-    def track_answer(self, question):
-        wrong_answer = track_answer(player_id= current_player.id, question_id = current_question.id)
-        player_input= input("Enter your answer")
-        if player_input==current_question.answer:
-            print ("You got correct Answer!") 
-            self.add_scores()
+    # def track_answer(self, question):
+    #     wrong_answer = track_answer(player_id= current_player.id, question_id = current_question.id)
+    #     player_input= input("Enter your answer")
+    #     if player_input==current_question.answer:
+    #         print ("You got correct Answer!") 
+    #         self.add_scores()
     
-        else:
-            print ("That is incorrect!")
-            player.question.append(current_question)
-            session.add(player)
-            session.commit()
-            #wrong answer track
-            self.handle_exit()
+    #     else:
+    #         print ("That is incorrect!")
+    #         player.question.append(current_question)
+    #         session.add(player)
+    #         session.commit()
+    #         #wrong answer track
+    #         self.handle_exit()
 
     # def add_score (self):
     #     count =self.track_answer.points
@@ -116,7 +119,6 @@ class Cli:
     #     count+=1   
        
     #     print ("That is incorrect, try again")
-
 
 
     def show_score (self):
