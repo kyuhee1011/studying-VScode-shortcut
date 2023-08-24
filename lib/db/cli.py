@@ -130,9 +130,12 @@ class Cli:
      
 
     def show_all_questions(self):
+        #used count() aggregation
+        questions_count= session.query(Question).count()
+        print (f"Total Questions are: {questions_count}")
         questions = session.query(Question).all()
         for question in questions:
-            print(f"Question: {question.question}")
+            print(f"Question:{question.question}")
         time.sleep(7)
         self.clear_lines()
         self.show_start_options()
