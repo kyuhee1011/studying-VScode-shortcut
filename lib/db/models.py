@@ -1,7 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table, Boolean, MetaData
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Table,  MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from session import session
-from sqlalchemy.orm import sessionmaker, relationship, backref
+from sqlalchemy.orm import sessionmaker, relationship
 
 convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -51,6 +51,7 @@ class Player(Base):
             + f"username:{self.username}, "\
             + f"Player's point:{self.point}"
 
+    questions=relationship("Question", secondary=track_answer, back_populates="players")
 
 
     @classmethod
@@ -59,7 +60,7 @@ class Player(Base):
 
         if remove_player:
             #deleting player from track answer table
-            #? [session.delete(player) for player in players.id]
+            
             session.delete(remove_player)
             session.commit()
             print(f"Player with username {username} has been removed.")
@@ -96,6 +97,9 @@ class Question (Base):
             + f"Question:{self.question} "\
             + f"Answer:{self.answer}"\
             + f"Point:{self.point}"
+    
+    players=relationship("Player", secondary=track_answer, back_populates="questions")
+    quizzes=relationship("Quiz", secondary=quiz_question , back_populates="questions")
 
 class Quiz (Base):
     __tablename__='quizzes'
@@ -109,3 +113,5 @@ class Quiz (Base):
     def __repr__(self):
         return f"Quiz {self.id}: " \
             + f"Player id{self.player_id}"
+    
+    questions=relationship("Question", secondary=quiz_question , back_populates="quizzes")

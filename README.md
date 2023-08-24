@@ -6,7 +6,9 @@ This app is a quiz app that helps a player memorize the keyboard shortcuts to us
 
 Clone this repository and then install pipenv install.
 
+```ubuntu
 git@github.com:kyuhee1011/studying-VScode-shortcut.git
+```
 
 ```ubuntu
 pipenv install

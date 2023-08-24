@@ -2,7 +2,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Player, Question, Quiz
 from session import session
-import random
 
 
 
@@ -41,6 +40,7 @@ if __name__=='__main__':
                 answer="ctrl + k ctrl + s", point=1)
 
     ]
+
 
 
     session.bulk_save_objects (questions, player)

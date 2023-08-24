@@ -1,7 +1,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Base, Player, Quiz, Question, player_quiz
+from models import Base, Player, Quiz, Question
 
 
 

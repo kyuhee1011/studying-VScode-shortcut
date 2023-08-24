@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
 from sqlalchemy.orm import sessionmaker
-import random
+
 # from helpers import add_scores, cli
 
 from session import session
@@ -18,8 +18,7 @@ class Cli:
         self.questions= session.query(Question).all()
         
         self.track_index = 0
-        # self.old_questions=[]
-
+        import ipdb; ipdb.set_trace()
     def start_quiz (self):
         start_menu_options= ["Enter username", "AddMe", "Exit"]
         start_menu=TerminalMenu(start_menu_options)
@@ -89,7 +88,8 @@ class Cli:
     def track_answer(self):
        
         question = self.questions[self.track_index] 
-        wrong_answer = track_answer 
+
+        #wrong_answer = self.current_player.questions.append(session.query(Question).first())
         player_input = input("Enter your answer: ")
 
         if question.correct_answer(player_input):
@@ -112,13 +112,13 @@ class Cli:
         player_input=input("Enter 'n' for next question or 'e' to exit")
         #player input compare and increment
         if player_input.lower()=='n':
+            #tuples ?
             self.track_index += 1
             
             question=self.questions[self.track_index]
             print(f"Question: {question.question}")
             self.track_answer()
-         
-            
+                     
             #== comparing 
         else: 
             self.handle_exit()
@@ -133,8 +133,9 @@ class Cli:
         }
         print("The Player with the Highest Score is:",highest_player)
         total_score=self.current_player.point
+        #move option menu
         print(f"Total Score for 'username': {self.current_player.username}, 'score': {total_score}")
-     
+        self.show_start_options()
 
     def show_all_questions(self):
         #used count() aggregation
