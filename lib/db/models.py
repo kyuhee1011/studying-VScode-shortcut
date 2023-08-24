@@ -58,6 +58,8 @@ class Player(Base):
         remove_player = session.query(cls).filter_by(username=username).first()
 
         if remove_player:
+            #deleting player from track answer table
+            #? [session.delete(player) for player in players.id]
             session.delete(remove_player)
             session.commit()
             print(f"Player with username {username} has been removed.")

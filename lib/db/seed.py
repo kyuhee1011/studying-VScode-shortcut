@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Player, Question, Quiz
 from session import session
+import random
+
 
 
 # engine = create_engine('sqlite:///studying-VScode-shortcut-quiz.db')

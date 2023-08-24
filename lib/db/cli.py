@@ -113,8 +113,7 @@ class Cli:
         #player input compare and increment
         if player_input.lower()=='n':
             self.track_index += 1
-            print (self.track_index)
-
+            
             question=self.questions[self.track_index]
             print(f"Question: {question.question}")
             self.track_answer()
@@ -141,6 +140,8 @@ class Cli:
         #used count() aggregation
         questions_count= session.query(Question).count()
         print (f"Total Questions are: {questions_count}")
+
+        #used list
         questions = session.query(Question).all()
         for question in questions:
             print(f"Question:{question.question}")
