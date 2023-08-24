@@ -112,6 +112,7 @@ class Cli:
         player_input=input("Enter 'n' for next question or 'e' to exit")
         #player input compare and increment
         if player_input.lower()=='n':
+        
             self.track_index += 1
             print (self.track_index)
 
@@ -125,6 +126,13 @@ class Cli:
 
     def show_score (self):
         
+        highest_score=session.query(Player).order_by(Player.point.desc()).first()
+        #use dictionary
+        highest_player = {
+            "Username": highest_score.username,
+            "Score": highest_score.point
+        }
+        print("The Player with the Highest Score is:",highest_player)
         total_score=self.current_player.point
         print(f"Total Score for 'username': {self.current_player.username}, 'score': {total_score}")
      
