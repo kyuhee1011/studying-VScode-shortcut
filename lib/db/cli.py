@@ -112,13 +112,13 @@ class Cli:
         player_input=input("Enter 'n' for next question or 'e' to exit")
         #player input compare and increment
         if player_input.lower()=='n':
-        
             self.track_index += 1
             print (self.track_index)
 
             question=self.questions[self.track_index]
-            print (question)
+            print(f"Question: {question.question}")
             self.track_answer()
+         
             
             #== comparing 
         else: 

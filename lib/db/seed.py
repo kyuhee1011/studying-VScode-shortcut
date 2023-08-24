@@ -34,7 +34,7 @@ if __name__=='__main__':
         Question (question="What is the shortcut key to toggle line comment?", 
                 answer="ctrl + /", point=1),
         Question (question="What is the shortcut key to format the document according to Visual Studio", 
-                answer="shift + alt + f",point=1),
+                answer="shift + alt + f", point=1),
         Question (question="How do you open/learn more about Visual Studio Shortcuts?", 
                 answer="ctrl + k ctrl + s", point=1)
 
