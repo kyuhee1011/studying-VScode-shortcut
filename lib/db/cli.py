@@ -18,7 +18,7 @@ class Cli:
         self.questions= session.query(Question).all()
         
         self.track_index = 0
-        import ipdb; ipdb.set_trace()
+        # import ipdb; ipdb.set_trace()
     def start_quiz (self):
         start_menu_options= ["Enter username", "AddMe", "Exit"]
         start_menu=TerminalMenu(start_menu_options)
@@ -88,21 +88,19 @@ class Cli:
     def track_answer(self):
        
         question = self.questions[self.track_index] 
-
-        #wrong_answer = self.current_player.questions.append(session.query(Question).first())
         player_input = input("Enter your answer: ")
-
-        if question.correct_answer(player_input):
-            print ("You got correct Answer!") 
+        if player_input == question.answer:
+            print("That is correct!")
             self.current_player.point += question.point
-            # question += 1
             self.next_question()  
         else:
             print("That is incorrect!")
-            self.next_question()
-
+            self.current_player.questions.append(question)
+            self.next_question()  
+       
             session.add(self.current_player)
-            session.commit()              
+            session.commit()
+            self.next_question()              
   
         return self.track_index
     
@@ -112,7 +110,6 @@ class Cli:
         player_input=input("Enter 'n' for next question or 'e' to exit")
         #player input compare and increment
         if player_input.lower()=='n':
-            #tuples ?
             self.track_index += 1
             
             question=self.questions[self.track_index]
