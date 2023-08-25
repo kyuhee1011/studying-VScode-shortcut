@@ -8,10 +8,7 @@ convention = {
 }
 metadata = MetaData(naming_convention=convention)
 
-# engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
-# Session = sessionmaker(bind=engine)
-# session = Session()
-
+#Associating (join) tables 
 Base = declarative_base()
 quiz_question =Table(
     "quiz_question",
@@ -28,6 +25,8 @@ track_answer =Table(
     Column ("question_id", ForeignKey("questions.id")),
    
 )
+
+
 class Player(Base):
     __tablename__='players'
  
@@ -53,14 +52,12 @@ class Player(Base):
 
     questions=relationship("Question", secondary=track_answer, back_populates="players")
 
-
+#used class method to access data from Player
     @classmethod
     def remove_player(cls, session, username):
         remove_player = session.query(cls).filter_by(username=username).first()
 
-        if remove_player:
-            #deleting player from track answer table
-            
+        if remove_player:          
             session.delete(remove_player)
             session.commit()
             print(f"Player with username {username} has been removed.")

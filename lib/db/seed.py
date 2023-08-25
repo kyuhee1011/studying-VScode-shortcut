@@ -4,11 +4,6 @@ from models import Player, Question, Quiz
 from session import session
 
 
-
-# engine = create_engine('sqlite:///studying-VScode-shortcut-quiz.db')
-# Session = sessionmaker(bind=engine)
-# session = Session()
-
 if __name__=='__main__':
    
     session.query(Question).delete()
@@ -16,6 +11,7 @@ if __name__=='__main__':
     
     player=[]
     quizzes =[]
+
 
     questions=[
         Question (question="How do you open the terminal? ", 
@@ -29,7 +25,7 @@ if __name__=='__main__':
         Question (question="How do you create a new terminal?", 
                 answer="ctrl + shift + `", point=1),
         Question (question="What kind of file type is .py?", 
-                answer="Python", point=1),
+                answer="python", point=1),
         Question (question="What is the key to start/continue debugging the application?", 
                 answer="f5", point=1),
         Question (question="What is the shortcut key to toggle line comment?", 

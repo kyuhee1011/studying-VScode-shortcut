@@ -4,21 +4,19 @@ from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
 from sqlalchemy.orm import sessionmaker
 
-# from helpers import add_scores, cli
-
 from session import session
 #prettycli
-# engine = create_engine ('sqlite:///studying-VScode-shortcut-quiz.db')
-# Session = sessionmaker(bind=engine)
-# session = Session()
 
 class Cli:
     def __init__ (self, current_player=None):
         self.current_player=current_player
         self.questions= session.query(Question).all()
-        
+
+        #assign as 0 to ask question from the beginning (add next_question function to go to ask next question)
         self.track_index = 0
         # import ipdb; ipdb.set_trace()
+
+    #start menu 
     def start_quiz (self):
         start_menu_options= ["Enter username", "AddMe", "Exit"]
         start_menu=TerminalMenu(start_menu_options)
@@ -53,7 +51,7 @@ class Cli:
         self.current_player=new_player
         self.show_start_options ()       
        
-
+#start quiz menu option
     def show_start_options(self):
         quiz_menu_options =["Start the Quiz", "View all questions", "My Score", "Remove Me", "Exit"]
         quiz_start_menu = TerminalMenu(quiz_menu_options) 
@@ -95,20 +93,23 @@ class Cli:
             self.next_question()  
         else:
             print("That is incorrect!")
+
+            #Object relationship method
+            #this part utilizes the many-to-many relaionship set up earlier to handle 
+            #the connection between the Player and the Question
             self.current_player.questions.append(question)
+             #invoke next_question whether a player got correct or incorrect
             self.next_question()  
        
             session.add(self.current_player)
-            session.commit()
-            self.next_question()              
+            session.commit()          
   
         return self.track_index
     
     def next_question(self):
-        #invoke
-        #create variable        
+        #create variable to compare on player input     
         player_input=input("Enter 'n' for next question or 'e' to exit")
-        #player input compare and increment
+        #if player input is "n" then question increment
         if player_input.lower()=='n':
             self.track_index += 1
             
@@ -116,30 +117,32 @@ class Cli:
             print(f"Question: {question.question}")
             self.track_answer()
                      
-            #== comparing 
         else: 
+            
             self.handle_exit()
 
     def show_score (self):
         
         highest_score=session.query(Player).order_by(Player.point.desc()).first()
-        #use dictionary
+        #use dictionary to show player who has highest score
         highest_player = {
             "Username": highest_score.username,
             "Score": highest_score.point
         }
         print("The Player with the Highest Score is:",highest_player)
         total_score=self.current_player.point
-        #move option menu
+
         print(f"Total Score for 'username': {self.current_player.username}, 'score': {total_score}")
+
+        #add start menu option to choose the menu
         self.show_start_options()
 
     def show_all_questions(self):
-        #used count() aggregation
+        #used count() aggregation to tell player how many total questions there are 
         questions_count= session.query(Question).count()
         print (f"Total Questions are: {questions_count}")
 
-        #used list
+        #used list to show all questions
         questions = session.query(Question).all()
         for question in questions:
             print(f"Question:{question.question}")
