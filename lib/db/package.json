@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "pretty-cli": "^0.0.14"
+  }
+}

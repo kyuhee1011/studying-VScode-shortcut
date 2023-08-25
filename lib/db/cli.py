@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from models import Player, Question, Quiz, track_answer,quiz_question
 from simple_term_menu import TerminalMenu
 from sqlalchemy.orm import sessionmaker
-
+from prettycli import red, green, yellow, blue
 from session import session
 #prettycli
 
@@ -35,7 +35,7 @@ class Cli:
             self.current_player=existing_player
             self.show_start_options()
         else:
-            print ("Username was not found. Would like to sign up and start the game?")
+            print (red("Username was not found. Would like to sign up and start the game?"))
             response = input("Enter 'yes' to continue:")
             if response=="yes":
                 self.enter_addMe()
@@ -78,7 +78,7 @@ class Cli:
         print ("\n"*10)
     
     def handle_start (self):
-        print ("Quiz started")
+        print (blue("Quiz started"))
         question=self.questions[self.track_index]
         print(f"Question: {question.question}")
         self.track_answer()
@@ -88,11 +88,11 @@ class Cli:
         question = self.questions[self.track_index] 
         player_input = input("Enter your answer: ")
         if player_input == question.answer:
-            print("That is correct!")
+            print(green("That is correct!"))
             self.current_player.point += question.point
             self.next_question()  
         else:
-            print("That is incorrect!")
+            print(red("That is incorrect!"))
 
             #Object relationship method
             #this part utilizes the many-to-many relaionship set up earlier to handle 
@@ -140,7 +140,7 @@ class Cli:
     def show_all_questions(self):
         #used count() aggregation to tell player how many total questions there are 
         questions_count= session.query(Question).count()
-        print (f"Total Questions are: {questions_count}")
+        print (yellow (f"Total Questions are: {questions_count}"))
 
         #used list to show all questions
         questions = session.query(Question).all()
@@ -153,7 +153,7 @@ class Cli:
     
 
     def handle_exit (self):
-        print ("Good Bye")          
+        print (blue ('Good Bye'))          
 
 if __name__ == '__main__':
     # pass
