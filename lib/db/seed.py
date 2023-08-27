@@ -19,7 +19,7 @@ if __name__=='__main__':
         Question (question="How cut and copy/paste the line?", 
                 answer="ctrl + x", point=1),
         Question (question="How do you save your work with a different name?", 
-                answer="ctrl + s", point=1),
+                answer="ctrl + shift + s", point=1),
         Question (question="Which key expand your screen to full screen?", 
                 answer="f11", point=1),
         Question (question="How do you create a new terminal?", 
