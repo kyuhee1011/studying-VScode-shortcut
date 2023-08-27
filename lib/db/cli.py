@@ -108,7 +108,7 @@ class Cli:
     
     def next_question(self):
         #create variable to compare on player input     
-        player_input=input("Enter 'n' for next question or 'e' to exit")
+        player_input=input("Enter 'n' for next question or 'any key' to exit")
         #if player input is "n" then question increment
         if player_input.lower()=='n':
             self.track_index += 1
