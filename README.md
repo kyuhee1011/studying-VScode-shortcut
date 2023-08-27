@@ -11,6 +11,10 @@ quizzes
 quiz_question
 layer_question_track
 
+## Database Relationship Diagram
+
+![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/cli%20project%20diagram.pdf)
+
 ## prerequisites
 
 Python 3.8.13
@@ -37,6 +41,10 @@ pipenv shell
 cd lib/db
 ```
 
+## Quick Start
+
+Run python3 seed.py to seed the database before steps below.
+
 1. Run python3 cli.py to login or add yourself.
 
    ![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/start%20quiz%20.jpg)
@@ -51,7 +59,6 @@ cd lib/db
    ![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/start%20quiz%204.jpg)
 
 4. Question will be asked and nswer should be all lowercase including space and '+'
-
    How do you open/learn more about Visual Studio Shortcuts?
    answer="ctrl + k ctrl + s"
 
@@ -69,7 +76,7 @@ cd lib/db
 
    ![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/show%20score.jpg)
 
-7. Remove me will remove player.
+7. Remove me will remove player and you can start it from the beginning adding with new username.
 
    ![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/remove%20me.jpg)
 
