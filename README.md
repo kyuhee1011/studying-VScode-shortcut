@@ -5,11 +5,12 @@ This app is a quiz app that helps a player memorize the most common keyboard sho
 ## Features
 
 Studying VScode shortcut key consist of 5 tables
-players
-questions
-quizzes
-quiz_question
-layer_question_track
+
+- Player
+- Question
+- Quiz
+- quiz_question
+- layer_question_track
 
 ## Database Relationship Diagram
 
