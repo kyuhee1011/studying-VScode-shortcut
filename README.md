@@ -14,7 +14,7 @@ Studying VScode shortcut key consist of 5 tables
 
 ## Database Relationship Diagram
 
-![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/cli%20project%20diagram.pdf)
+![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/cli%20diagram.png)
 
 ## prerequisites
 
@@ -27,6 +27,8 @@ Clone this repository and then install pipenv install.
 ```ubuntu
 git@github.com:kyuhee1011/studying-VScode-shortcut.git
 ```
+
+![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/git%20clone%20image.jpg)
 
 ```ubuntu
 pipenv install
