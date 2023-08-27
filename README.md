@@ -1,6 +1,6 @@
 # studying-VScode-shortcut
 
-This app is a quiz app that helps a player memorize the most common keyboard shortcuts to use the Visual Studio code smoothly with all other programming.
+This app is a quiz app that helps a player memorize the most common keyboard shortcuts to use on the Visual Studio code smoothly with all other programming.
 
 ## Features
 
@@ -27,6 +27,8 @@ Clone this repository and then install pipenv install.
 ```ubuntu
 git@github.com:kyuhee1011/studying-VScode-shortcut.git
 ```
+
+Or
 
 ![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/git%20clone%20image.jpg)
 
@@ -83,8 +85,12 @@ Run python3 seed.py to seed the database before steps below.
 
    ![git hub code](https://github.com/kyuhee1011/studying-VScode-shortcut/blob/main/assets/remove%20me.jpg)
 
+Enjoy
+
 ## Video
 
 https://youtu.be/x9eEgx4IHyM
 
-Enjoy
+## License
+
+MIT
